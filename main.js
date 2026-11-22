@@ -2,7 +2,7 @@
 // @name         Indeed Dark Mode
 // @namespace    https://github.com/FlerkenMind
 // @version      1.0.0
-// @description  Dark mode pour Indeed (toutes les versions pays) : texte clair lisible, boutons et liens aux bonnes couleurs, logos intacts. Alt+Maj+D pour activer / désactiver.
+// @description  Dark mode for Indeed
 // @author       FlerkenMind
 // @license      MIT
 // @homepageURL  https://github.com/FlerkenMind/vinted-dark-mode
@@ -180,7 +180,7 @@
   };
 
   const HUE180_INV = [[-0.574, 1.430, 0.144], [0.426, 0.430, 0.144], [0.426, 1.430, -0.856]];
-  function preimage(c) { // couleur x telle que filtre(x) = c
+  function preimage(c) {
     const h = keepHue ? HUE180_INV.map((row) => row[0] * c.r + row[1] * c.g + row[2] * c.b) : [c.r, c.g, c.b];
     const cl = (v) => Math.max(0, Math.min(255, Math.round(255 - v)));
     return `rgba(${cl(h[0])}, ${cl(h[1])}, ${cl(h[2])}, ${c.a})`;
@@ -233,13 +233,13 @@
       if (el.hasAttribute(KEEP) || el.closest(`[${KEEP}]`)) continue;
       const r = el.getBoundingClientRect();
       if (r.width < 160 || r.height < 100 || area(r) < minArea) continue;
-      if (r.width >= vw * 0.98 && r.height >= vh * 0.9) continue; // enveloppe de page : jamais
+      if (r.width >= vw * 0.98 && r.height >= vh * 0.9) continue;
       if (!isDarkBg(el, 0.5)) continue;
       mark(el, 'zone déjà sombre conservée :');
     }
   }
 
-  const lifted = new WeakMap(); // média -> nombre d'enfants du parent au moment du traitement
+  const lifted = new WeakMap();
 
   function lift(el, depth) {
     if (depth === 0) {
@@ -388,7 +388,7 @@
 
   new MutationObserver((records) => {
     if (styleEl && styleEl.isConnected) styleSeen = true;
-    else if (enabled && styleEl && styleSeen) apply(); // le site a retiré notre style
+    else if (enabled && styleEl && styleSeen) apply();
     for (const r of records) for (const n of r.addedNodes) if (n.nodeType === 1) pending.add(n);
     schedule(250);
   }).observe(document, { childList: true, subtree: true });
